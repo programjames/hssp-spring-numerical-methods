@@ -8,7 +8,8 @@
 - *If you wish to do homework* you should know Python. You would probably be fine with MATLAB, C++, or C#, but all code here will be written in Python with the packages `numpy, scipy, matplotlib,` and `jupyter`.
 
 -----
-## Schedule (tentative)
+
+# Schedule (tentative)
 
 1. The derivative, fixed point iteration, Newton's, Euler & Runge-Kutta methods.
 2. Gauss-Legendre quadrature, solving PDE's (e.g. heat equation), finite difference methods & correctors.
@@ -18,7 +19,14 @@
 6. Different ideas, maybe a combination of them: Image recognition w/ Bayes' theorem, the Lagrangian w/ the simplex method, image compression w/ principal component analysis.
 
 -----
-## Installation
+
+# Lecture Notes (homeworks at the end)
+
+1. [Week 1](notes/lecture1.pdf)
+
+-----
+
+# Installation
 Open up the terminal (cmd line on Windows) and run
 ```shell
 git clone https://github.com/programjames/hssp-spring-numerical-methods
@@ -26,4 +34,4 @@ cd hssp-spring-numerical-methods
 pip install -r requirements.txt
 ```
 
-To view a file run `jupyter notebook` and open the corresponding file.
+To view a `.ipynb` file run `jupyter notebook` and open the corresponding file.

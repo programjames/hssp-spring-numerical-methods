@@ -1,3 +1,6 @@
+---
+colorlinks: true
+---
 # Lecture 1
 ## By James Camacho
 
@@ -15,7 +18,7 @@ The equation for a line is $y = mx + b$, where $m$ is the "slope" of the line—
 
 Calculus is generalizing the idea of slopes to more functions. For example, what is the slope of the line $y = x^2$ at the point $(x, y) = (1, 1)$?
 
-![Tangent to y=x squared.](images/slope_x2.svg)
+![Tangent to y=x squared.](images/slope_x2.svg){ width=250px }
 
 We could draw a line tangent to the function at that point and compute its slope. We call this the "derivative". How do you compute this? Well, we just take add a small $\text{d}x$ and find how much that changes $y$, like so:
 $$\begin{aligned}y &= x^2,\\y + \text{d}y &= (x + \text{d}x)^2\\&\implies \\\text{d}y &= 2x\cdot \text{d}x + (\text{d}x)^2\\&\implies\\\frac{\text{d}y}{\text{d}x} &= 2x + \text{d}x.\end{aligned}$$
@@ -37,7 +40,8 @@ These coefficients are aptly named the [binomial coefficients](https://en.wikipe
 but $\text{d}x$ is infinitesimally small, so everything except $nx^{n-1}$ approaches zero. This gives us the derivative,  $\frac{\text{d}f}{\text{d}x} = nx^{n-1}$. The binomial theorem happens to hold true even if $n$ is not an integer or real number, so it's possible to take the derivative of, say, $f(x) = \sqrt{x} = x^{\frac12}$. Just plug in $n=\frac12$.
 
 Now what about exponentials? For example, what is the derivative of $f(x) = 2^x$?
-![Exponential curve.](images/exponential.svg)
+![Exponential curve.](images/exponential.svg){width=250px}
+
 The intuition behind compounding interest (e.g. on loans) tells us that the slope should grow at the same pace as the function, so $\frac{\text{d}f}{\text{d}x} = c2^x$ for some constant $c$. Working out the math gives us $$\frac{\text{d}f}{\text{d}x} = \frac{2^{x+\text{d}x} - 2^x}{\text{d}x} = \frac{2^{\text{d}x} - 1}{\text{d}x}2^x.$$As $2^{0} - 1 = 0$, when $\text{d}x = 0$ both the numerator and denominator of $\frac{2^{\text{d}x}-1}{\text{d}x}$ are zero, which doesn't make sense. However, if we take successively smaller $\text{d}x$, and compute the limit as $\text{d}x$ goes to zero, we find $$\lim_{\text{d}x\to 0}\frac{2^{\text{d}x}-1}{\text{d}x}\approx 0.69.$$So, $$\frac{\text{d}f}{\text{d}x}\approx 0.69\cdot 2^x = 0.69f(x).$$For $f(x) = 3^x$ we get $$\frac{\text{d}f}{\text{d}x}\approx 1.1\cdot 3^x = 1.1f(x).$$It'd be more natural to find derivatives if $\frac{\text{d}f}{\text{d}x} = f,$ so mathematicians defined a base that satisfies this—Euler's number, $e$, which is approximately $2.7183$. Two ways to compute it are with the formulae $$\begin{aligned}e &= \lim_{n\to\infty}\left(1+\frac{1}{n}\right)^n&(\text{E.1})\\e&=\frac{1}{0!}+\frac{1}{1!}+\frac{1}{2!}+\frac{1}{3!}+\cdots.&(\text{E.2})\end{aligned}$$
 Call the natural logarithm ($\ln$) the logarithm with this base (so $\ln(7.4)\approx 2$), then for any base $a$, $$a^x = (e^{\ln a})^x = e^{x\ln a}.$$Taking a derivative gives us $$\frac{\text{d} (a^x)}{\text{d}x} = \frac{\text{d} (e^{x\ln a})}{\text{d} (x\ln a)}\ln a = \ln a\cdot e^{x\ln a} = \ln a\cdot a^x.$$So, throwing back to $f(x) = 3^x$ above, $$\frac{\text{d}(3^x)}{\text{d}x} = \ln 3 \cdot 3^{x},$$and in fact $\ln 3$ is approximately $1.1$.
 
@@ -54,14 +58,16 @@ There is a more general idea called *finite element analysis*, where instead of 
 1. People often use prime notation, writing $y'$ instead of $\text{d}y/\text{d}x$. This should only ever be used for the total derivative. The $n$th derivative can be written as $y^{(n)}$, and it's usually good practice to write $y^{(4)}$ instead of $y''''$.
 2. The product rule is $(fg)' = f'g + g'f$. Try plugging in the deltas if you wish to prove it.
 3. The chain rule is $$\frac{\text{d}(f(g(x))}{\text{d}x} = \frac{\text{d}f(g)}{\text{d}g}\cdot \frac{\text{d}g}{\text{d}x},$$for example with $f(g)=e^{g}$ and $g(x) = x\ln 3$ we get $$\frac{\text{d} e^{x\ln 3}}{\text{d}x} = e^{x\ln 3}\cdot \ln 3.$$I used this when computing the derivative of $a^x$ several paragraphs ago.
-4. The *integral* is the area under a function (if the function is negative, that area is considered negative). It can be computed by making a bunch of small boxes of width $\text{d}x$ and height $f(x)$, then adding them up: ![Riemann sum](images/integral.svg)
+4. The *integral* is the area under a function (if the function is negative, that area is considered negative). It can be computed by making a bunch of small boxes of width $\text{d}x$ and height $f(x)$, then adding them up: ![Riemann sum](images/integral.svg){width=250px}
+
 5. The derivative of the integral is the original function. Sometimes the integral is called the antiderivative for this reason. (Example: The integral of velocity is how far you've moved, i.e. your position, while the derivative of your position is how fast you're moving, i.e. your velocity.)
 6. In general integrals are much harder to compute than derivatives, and many integrals have no closed form. We'll show how to numerically approximate integrals in Lecture 2.
 7. Another difficult problem is solving *differential equations*. These show up everywhere in physics (for example, the motion of a spring satisfies $f'' = -kf$ for a spring constant $k$). We'll show how to solve these in a few sections.
+
 -----
 
 ## Fixed Point Iteration
-![Intersection of y=x with the function is a fixed point.](images/fixed_point.svg)
+![Intersection of y=x with the function is a fixed point.](images/fixed_point.svg){width=250px}
 
 Say you take a function and apply it over and over again. If it's like $f(x) = x^2$ and you start with $x=2$, then the number will get infinitely large. However, if the derivative is between $-1$ and $1$, we get a *contraction mapping* where the range shrinks after every iteration until we're left with just a few fixed points. For example, the only fixed point of $\cos(x)$ is $x\approx 0.7391$.
 
@@ -70,7 +76,8 @@ We can use fixed point iteration to find roots. For example, with the equation $
 -----
 
 ## Newton's Method
-![Linear convergence of Newton's method.](images/newton.svg)
+![Linear convergence of Newton's method.](images/newton.svg){width=250px}
+
 When it converges, Newton's method is usually faster for finding roots. Suppose $f(x)\ne 0$ but we want to find a root $x^*$ where $f(x^*) = 0$. From the first two terms of the Taylor series,
 $$0 = f(x^*)\approx f(x) + (x^{*}-x)f'(x),$$
 so $$x^*\approx x - \frac{f(x)}{f'(x)}.$$
@@ -84,12 +91,12 @@ Iteration 2: x = 1.02500
 Iteration 3: x = 1.00030
 ```
 
-We do have to be careful when double roots are present. As a homework problem, try applying Newton's method to $f(x) = x^2$. Does it look like quadratic convergence?
+We do have to be careful when double roots are present. I'll leave it as a homework problem to investigate this, in particular try applying Newton's method to $f(x) = x^2$. Does it look like quadratic convergence? (Hint: it doesn't.)
 
 -----
 
 ## Euler's Method
-![Euler's & trapezoidal methods with f = exp(x) - 1.](images/eulers.png "Euler's & trapezoidal methods with f = exp(x) - 1.")
+![Euler's & trapezoidal methods with f = exp(x) - 1.](images/eulers.png "Euler's & trapezoidal methods with f = exp(x) - 1."){width=250px}
 As a toy example, say you have the differential equation $$y'(t) = y(t) + 1.$$The exact solution is $y = e^t - 1$, but pretend you don't know how to solve this by hand. You can use Euler's method to approximate the solution using only an initial value $y(0) = y_0$. As in Newton's method we truncate the Taylor series to get $$y(t + h) \approx y(t) + hy'(t).$$We start at $t=0$ and keep adding $h$ and computing $y'$ using our differential equation until we reach $t=t_{\text{end}}$, like so:
 $$y_{n+1} = y_n + hy'(t_n) = y_n + h(y_n+1).$$
 Each step will introduce an error proportional to $h^2$ from terms we truncated, so the *local truncation error* (LTE) is second order. Taking smaller steps should make each value more accurate, however this also means we take more steps. The number of steps is proportional to $\frac{1}{h}$, so we should expect the error at $t=t_{\text{end}}$ to be proportional to $\frac{h^2}{h}=h$.
@@ -102,9 +109,24 @@ Other ways to improve Euler's method include creating intermediate points (Runge
 
 ## Runge-Kutta Methods
 
-Runge-Kutta methods are usually written out in a *Butcher tableau*: $$\begin{array}{c|ccccc}t_1=t\\t_2&a_{21}\\t_3&a_{31}&a_{32}\\\vdots&\vdots&&\ddots\\t_s&a_{s1}&a_{s2}&\cdots&a_{s,s-1}\\\hline&b_1&b_2&\dots&b_{s-1}&b_s\end{array}$$The times $t_2, t_3, \dots, t_s$ are fractions of a step. You create intermediate points defined by $$y_{t_n} = f(t + ht_n,\quad y_t + h\sum_{i=1}^{n-1}a_{ni}y_{t_i}),$$and combine them with the last row to get $$y_{t+h} = y_t + h\sum_{i=1}^s b_iy_{t_i}.$$To give a specific example, the Butcher tableau for the midpoint method is $$\begin{array}{c|ccc}0\\\frac12&\frac12\\\hline&0&1\end{array},$$which amounts to $$\begin{aligned}y_{t+\frac12h}&=y_t+\frac12h(t,y_t)\\y_{t+h} &= y_t + hf(t+\frac12h,\quad y_{t+\frac12h})\\&\text{(or put together),}\\y_{t+h} &= y_t+hf(t+\frac12h,\quad y_t+\frac12h(t, y_t)).\end{aligned}$$Let's analyze its convergence rate. From an earlier analysis we know $$y_t+\frac12h(t, y_t) = y(t+\frac12h) + O(h^2)$$where $O(h^2)$ is [Big-O notation](https://web.mit.edu/16.070/www/lecture/big_o.pdf) for "order two". So, $$\begin{aligned}y_t+hf(t+\frac12h,\quad y_t+\frac12h(t, y_t)) &= y_t+hf(t+\frac12h,\quad y(t+\frac12h)+O(h^2))\\(\text{Taylor series on }f(y)\to)&=y_t+hf(t+\frac12h,\quad y(t+\frac12h))+O(h^3)\\&=y_t+hy'(t+\frac12h)+O(h^3)\\(\text{Taylor series on }y'(t)\to)&=y_t+hy'(t)+\frac{h^2}{2}y''(t)+O(h^3).\end{aligned}$$This is exactly the same as the Taylor series for $y(t+h)$: $$y(t+h) = y(t) + hy'(t) + \frac{h^2}{2}y''(t)+O(h^3).$$This means the local truncation error is third order, and the global error is second order. Even though the midpoint method computes $f$ twice per step, you can take larger step sizes and get the same error as with Euler's method, meaning you need less computation overall. Most software (e.g. [scipy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.RK45.html)) use an order 5 explicit Runge-Kutta method as a predictor, and then follows up with an order 4 implicit method as a corrector.
+Runge-Kutta methods are usually written out in a *Butcher tableau*: $$\begin{array}{c|ccccc}t_1=t\\t_2&a_{21}\\t_3&a_{31}&a_{32}\\\vdots&\vdots&&\ddots\\t_s&a_{s1}&a_{s2}&\cdots&a_{s,s-1}\\\hline\&b_1&b_2&\dots&b_{s-1}&b_s\end{array}$$The times $t_2, t_3, \dots, t_s$ are fractions of a step. You create intermediate points defined by $$y_{t_n} = f(t + ht_n,\quad y_t + h\sum_{i=1}^{n-1}a_{ni}y_{t_i}),$$and combine them with the last row to get $$y_{t+h} = y_t + h\sum_{i=1}^s b_iy_{t_i}.$$To give a specific example, the Butcher tableau for the midpoint method is $$\begin{array}{c|ccc}0\\\frac12&\frac12\\\hline&0&1\end{array},$$which amounts to $$\begin{aligned}y_{t+\frac12h}&=y_t+\frac12h(t,y_t)\\y_{t+h} &= y_t + hf(t+\frac12h,\quad y_{t+\frac12h})\\&\text{(or put together),}\\y_{t+h} &= y_t+hf(t+\frac12h,\quad y_t+\frac12h(t, y_t)).\end{aligned}$$Let's analyze its convergence rate. From an earlier analysis we know $$y_t+\frac12h(t, y_t) = y(t+\frac12h) + O(h^2)$$where $O(h^2)$ is [Big-O notation](https://web.mit.edu/16.070/www/lecture/big_o.pdf) for "order two". So, $$\begin{aligned}y_t+hf(t+\frac12h,\quad y_t+\frac12h(t, y_t)) &= y_t+hf(t+\frac12h,\quad y(t+\frac12h)+O(h^2))\\(\text{Taylor series on }f(y)\to)&=y_t+hf(t+\frac12h,\quad y(t+\frac12h))+O(h^3)\\&=y_t+hy'(t+\frac12h)+O(h^3)\\(\text{Taylor series on }y'(t)\to)&=y_t+hy'(t)+\frac{h^2}{2}y''(t)+O(h^3).\end{aligned}$$This is exactly the same as the Taylor series for $y(t+h)$: $$y(t+h) = y(t) + hy'(t) + \frac{h^2}{2}y''(t)+O(h^3).$$This means the local truncation error is third order, and the global error is second order. Even though the midpoint method computes $f$ twice per step, you can take larger step sizes and get the same error as with Euler's method, meaning you need less computation overall. Most software (e.g. [scipy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.RK45.html)) use an order 5 explicit Runge-Kutta method as a predictor, and then follows up with an order 4 implicit method as a corrector.
 
 -----
 
 ## Multistep Methods
-You can also get higher order methods by interpolating previous points instead of creating intermediary points. These are called [multistep methods](https://en.wikipedia.org/wiki/Linear_multistep_method), and take the general form $$\sum_{n=0}^sa_ny_n = h\sum_{n=0}^sb_nf(t_n, y_n).$$Note I'm assuming the unknown we're solving for is $y_s$, so usually $a_s = 1$ (and $b_s=0$ for explicit methods). For all other timesteps we assume we know the exact solution, so $y_n = y(t_n)$. We want to maximize the order of the method; expanding out the first several terms of the Taylor series (on each side) and equating coefficients of $h^kf^{(k)}$ gives $$\begin{aligned}\sum_{n=0}^s\frac{n^k}{k!}a_n &=\sum_{n=0}^s\frac{n^{k-1}}{(k-1)!}\end{aligned}$$for $k \ge 1$. For $k=0$ there is no $h^0$ term from the right half of the equation, so we get $$\sum_{n=0}^s a_n = 0,$$sometimes called the consistency condition. The explicit Adams-Bashforth methods have the additional restriction $a_{s-1} = -1$ and all remaining $a_i = 0$, so we get a method of the form $$y_s = y_{s-1} + h\sum_{n=0}^{s-1}b_nf(t_n, y_n).$$The implicit Adams-Moulton method is the same, except the summation goes all the way to $s$. Finally, the backwards differentiation formulas (BDF method) are implicit methods with $b_s=1$ and all other $b_i=0$. They take the form $$\sum_{n=0}^sa_ny_n = hf(t_s, y_s).$$
+You can also get higher order methods by interpolating previous points instead of creating intermediary points. These are called [multistep methods](https://en.wikipedia.org/wiki/Linear_multistep_method), and take the general form $$\sum_{n=0}^sa_ny_n = h\sum_{n=0}^sb_nf(t_n, y_n).$$Note I'm assuming the unknown we're solving for is $y_s$, so usually $a_s = 1$ (and $b_s=0$ for explicit methods). For all other timesteps we assume we know the exact solution, so $y_n = y(t_n)$. We want to maximize the order of the method; expanding out the first several terms of the Taylor series (on each side) and equating coefficients of $h^kf^{(k)}$ gives $$\begin{aligned}\sum_{n=0}^s\frac{n^k}{k!}a_n &=\sum_{n=0}^s\frac{n^{k-1}}{(k-1)!}\end{aligned}$$for $k \ge 1$. For $k=0$ there is no $h^0$ term from the right half of the equation, so we get $$\sum_{n=0}^s a_n = 0,$$sometimes called the consistency condition. The explicit Adams-Bashforth methods have the additional restriction $a_{s-1} = -1$ and all remaining $a_i = 0$, so we get a method of the form $$y_s = y_{s-1} + h\sum_{n=0}^{s-1}b_nf(t_n, y_n).$$The implicit Adams-Moulton method is the same, except the summation goes all the way to $s$. Finally, the backwards differentiation formulas (BDF method) are implicit methods with $b_s=1$ and all other $b_i=0$. They take the form $$\sum_{n=0}^sa_ny_n = hf(t_s, y_s).$$The Adams Bashforth and BDF methods with $s$ previous points are order $s$, while the Adams Moulton methods can achieve the theoretical maximum ($s+1$).
+
+-----
+
+# Homework Problems
+1. Find the Maclaurin series for $\frac{1}{(1-x)^2}$. **Hint:** What is the derivative of $(x-1)^{-1}$?
+2. Show that $$f'(x) = \sum_{f(r)=0}\frac{f(x)}{x-r},$$where the roots are counted with multiplicity.
+3. **Coding:** Apply Newton's method to $f(x) = x^2$ starting with an initial guess of $x=1$. Why does it not converge quadratically?
+4. Create a fixed point method using a Padé approximation of the form $$x^* = f(x^*)\approx \frac{f(x) + \alpha(x^*-x)f'(x)}{1 + \beta (x^*-x)}.$$**Coding:** Use it to find a fixed point for $f(x) = \frac{x^2-2}{x-2}$. For what $\beta$ does it converge?
+5. A function is *Lipschitz continuous* if it is continuous and $\frac{|f(x) - f(y)|}{|x-y|} \le K$ for some constant $K$. Show that if a function is Lipschitz continuous, then any Runge-Kutta or multistep method will have a GTE with order one less than the LTE. For example, the local truncation error of Euler's method is $O(h^2)$ but it's global truncation error is only $O(h)$.
+6. Propose a third order Runge-Kutta method (unless otherwise specified, order refers to the global truncation error). 
+7. **Coding:**
+	1. Code up your method using the test function $f(x) = e^x$.
+	2. Create a log-log plot showing error against time deltas (between $10^{-0}$ and $10^{-3}$).
+	3. Verify that the slope is three.
+	4. Math question: Why does the slope equal the order?
