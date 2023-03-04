@@ -60,3 +60,12 @@ Now let's actually prove the order of the five-point stencil. To simplify notati
 
 ## Corrector
 The Poisson equation is very similar to the heat equation; it takes the form $$\nabla^2 u = f$$and solves for the potential $u$ given a distribution of charges $f$. Notice that $$u_{xxxx}+u_{yyyy} = \nabla^2[u_{xx}+u_{yy}]-2u_{xxyy} = \nabla^2(\nabla^2 u) - 2u_{xxyy} = \nabla^2 f - 2u_{xxyy}.$$The correction we need is $$\nabla^2 u + \frac{h^2}{6}u_{xxyy} = f + \frac{h^2}{12}\nabla^2 f.$$We can approximate $u_{xxyy}$ with a nine point stencil. The Taylor series gives $$u_{\pm 1, \pm 1} = u \pm hu_x\pm hu_y+\frac{h^2}{2}(u_{xx}\pm 2u_{xy}+u_{yy})\pm \cdots.$$If we average all four corners together, everything should cancel except for even terms in both $x$ and $y$: $$\frac{1}{4}[u_{11}+\cdots] = u + \frac{h^2}{2}[u_{xx}+u_{yy}] + \frac{h^4}{24}[u_{xxxx}+6u_{xxyy}+u_{yyyy}]+O(h^6),$$where the six arises because $u_{xxyy} = u_{xyxy} = \cdots = u_{yyxx}$. Similarly, we find the average of the other four points is $$\frac{1}{4}[u_{10}+\cdots] = u + \frac{h^2}{4}[u_{xx}+u_{yy}]+\frac{h^4}{48}[u_{xxxx}+u_{yyyy}]+O(h^6).$$Then $$u - \frac{2}{4}[u_{10}+\cdots]+\frac{1}{4}[u_{11}+\cdots] = \frac{h^4}{4}u_{xxyy} + O(h^6).$$So our stencil to get $\frac{h^2}{6}u_{xxyy}$ is $$\frac{1}{6h^2}\begin{bmatrix}1&-2&1\\-2&4&-2\\1&-2&1\end{bmatrix}.$$Adding this to the 5-point stencil gives the corrected equation $$\frac{1}{6h^2}\begin{bmatrix}1&4&1\\4&-20&4\\1&4&1\end{bmatrix}u = f + \frac{h^2}{12}\nabla^2f.$$Usually we don't know $\nabla^2f$, but we can approximate it using the same 9-point stencil! This correction gives us an order four method; to get the same error as before we would only need $\Delta x = 1/32$ and our algorithm would run in a few milliseconds.
+
+-----
+
+\newpage
+
+# Homework Problems
+
+1. Determine the order of Simpson's rule in any way you wish.
+2. Create a finite difference method for the one-dimensional wave equation, $$\frac{\partial^2u}{\partial t^2} = v^2\frac{\partial^2u}{\partial x^2}$$where $v$ is the velocity of the wave. Set the left endpoint to $u(0, t) = \sin(\omega t)$ for some angular frequency $\omega$, and use von Neumann boundaries for the right endpoint. Explore what different $\omega$ do, in particular when $\omega$ is a resonant frequency.
