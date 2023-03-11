@@ -104,7 +104,8 @@ In finite element methods, you approximate a function $f$ as a sum of trial func
 
 # Homework Problems
 1. Find the sum and product of the eigenvalues of the matrix $$A = \begin{bmatrix}5&1&3&2\\e&2&\pi&7\\1&\sqrt2&-3&4\\2&6&-1&-4\end{bmatrix}.$$**Hint:** Use Vieta's formulas on $|A - \lambda I| = 0$.
-2. Find an explicit formula for the eigenvalues of the $n\times n$ rotation matrix $$L = \begin{bmatrix}
+2. Graph the solution to the equation $$y' = \begin{bmatrix}0&\sqrt{-1}\\-\sqrt{-1}&0\end{bmatrix}y$$for $y(0) = \begin{bmatrix}1\\1\end{bmatrix}$.
+3. Find an explicit formula for the eigenvalues of the $n\times n$ rotation matrix $$L = \begin{bmatrix}
 0&1&0&0&\cdots&0\\
 0&0&1&0&\cdots&0\\
 0&0&0&1&\cdots&0\\
@@ -112,10 +113,10 @@ In finite element methods, you approximate a function $f$ as a sum of trial func
 \vdots&\vdots&\vdots&\vdots&\ddots&\vdots\\
 1&0&0&0&\cdots&0\\
 \end{bmatrix}$$that shifts all the elements of $x$ to the left. What about $L + L^{-1}?$ What about $L - 2I + L^{-1}?$ What are the corresponding eigenvectors?
-3. Suppose $x_1 + x_2 + x_3 + \cdots + x_n=0$ and $x_1^2 + x_2^2 + x_3^2 + \cdots + x_n^2 = 1$. Find the largest possible value of $x_1x_2 + x_2x_3 + x_3x_4 + \cdots + x_nx_1$.
-4. **Coding:** Plot the condition number of the Hilbert matrices in a log-log plot against $n$. You may find `numpy.linalg.cond` useful. Assume machine precision is $2^{-32}$. At what $n$ does the condition number induce an error of more than one in solving $Ax = b?$
-5. If you used the Legendre polynomials as your bases functions, what would your condition number be?
-6. **Math + Coding:** $\langle f, g\rangle$ is a measure of distance between the functions $f$ and $g$. The Legendre polynomials are *orthogonal*, meaning $\langle P_i, P_j\rangle = 0$ unless $i = j$.
+4. Suppose $x_1 + x_2 + x_3 + \cdots + x_n=0$ and $x_1^2 + x_2^2 + x_3^2 + \cdots + x_n^2 = 1$. Find the largest possible value of $x_1x_2 + x_2x_3 + x_3x_4 + \cdots + x_nx_1$.
+5. **Coding:** Plot the condition number of the Hilbert matrices in a log-log plot against $n$. You may find `numpy.linalg.cond` useful. Assume machine precision is $2^{-32}$. At what $n$ does the condition number induce an error of more than one in solving $Ax = b?$
+6. If you used the Legendre polynomials as your bases functions, what would your condition number be?
+7. **Math + Coding:** $\langle f, g\rangle$ is a measure of distance between the functions $f$ and $g$. The Legendre polynomials are *orthogonal*, meaning $\langle P_i, P_j\rangle = 0$ unless $i = j$.
 	1. Code up the [Gram-Schmidt](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) process to determine $P_0, P_1, \dots, P_{n-1}$.
 	2. Use Newton's method to find the roots of $P_{n}$. You will need to start close to each root. According to [StackExchange](https://math.stackexchange.com/a/12270) you can use the approximation formula $$x_{i}\approx\left(1-\frac{1}{8n^2}+\frac{1}{8n^3}\right)\cos\left(\pi\frac{4i-1}{4n+2}\right).$$
 	3. Solve for the correct weights so that $$\begin{aligned}\int_{-1}^1 P_0\ \text{d}x &= \sum_{i=0}^{n+1}w_i P_0(x_i)\\\int_{-1}^1 P_1\ \text{d}x &= \sum_{i=0}^{n+1}w_i P_1(x_i)\\&\vdots\\\int_{-1}^1 P_n\ \text{d}x &= \sum_{i=0}^{n+1}w_i P_n(x_i).\end{aligned}$$
