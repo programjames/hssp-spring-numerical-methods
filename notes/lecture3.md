@@ -59,6 +59,16 @@ S\Lambda^kL\lambda^{-k} &= S\Lambda^kS^{-1}U^{-1}\Lambda^{-k}\\
 &= A^kU^{-1}\Lambda^{-k}\\&=(Q_1Q_2Q_3\cdots Q_k)(R_k\cdots R_3R_2R_1)U^{-1}\Lambda^{-k}\\
 &=QRU^{-1}\Lambda^{-k}.\end{aligned}$$Notice that $\Lambda^kL\Lambda^{-k}$ is lower triangular, so its entries are $$(\Lambda^kL\Lambda^{-k})_{ij} = L_{ij}\left(\frac{\Lambda_{ii}}{\Lambda_{jj}}\right)^k.$$Assuming that the eigenvalues are increasing (i.e. $\Lambda_{ii}>\Lambda_{jj}$ for $i>j$), then all terms except the diagonal will converge to zero, leaving the identity matrix. Hence, $$S = Q(RU^{-1}\Lambda^{-k}).$$The QR decomposition is also unique, so $S = Q$ and $I = RU^{-1}\Lambda^{-k}$. If $Q_k$ and $R_k$ converge, then it must be to $I$ and $\Lambda$ respectively. Then, for large enough $k$ we find $$A_k = Q_kR_k = \Lambda.$$The running time of QR decomposition for an $n\times n$ matrix is $O(n^3)$. It should converge linearly, as $\Lambda^kL\Lambda^{-k}\to I$ at a rate $(\lambda_{n-1}/\lambda_n)^k$. Modern adaptations of the QR algorithm also shift the eigenvalues each iteration, and do not fully compute the QR decomposition, to get cubic convergence with an $O(n^2)$ running time.
 
+We can use the QR algortihm to find the roots of a polynomial. The matrix $$ \begin{bmatrix}
+0&1&0&0&\cdots&0&0\\
+0&0&1&0&\cdots&0&0\\
+0&0&0&1&\cdots&0&0\\
+0&0&0&0&\cdots&0&0\\
+\vdots&\vdots&\vdots&\vdots&\ddots&\vdots&\vdots\\
+0&0&0&0&\cdots&0&1\\
+-a_{0}&-a_{1}&-a_{2}&-a_{3}&\cdots&-a_{n-2}&-a_{n-1}\\
+\end{bmatrix}$$has characteristic polynomial $$P(x) = x^n + a_{n-1}x^{n-1}+a_{n-2}x^{n-2} + \cdots + a_1x + a_0,$$so finding the eigenvalues will give you the roots of $P(x)$.
+
 -----
 
 # Newton-like Methods
@@ -103,18 +113,9 @@ In finite element methods, you approximate a function $f$ as a sum of trial func
 1&0&0&0&\cdots&0\\
 \end{bmatrix}$$that shifts all the elements of $x$ to the left. What about $L + L^{-1}?$ What about $L - 2I + L^{-1}?$ What are the corresponding eigenvectors?
 3. Suppose $x_1 + x_2 + x_3 + \cdots + x_n=0$ and $x_1^2 + x_2^2 + x_3^2 + \cdots + x_n^2 = 1$. Find the largest possible value of $x_1x_2 + x_2x_3 + x_3x_4 + \cdots + x_nx_1$.
-4. Find the characteristic polynomial of the $n\times n$ matrix $$P = \begin{bmatrix}
-0&1&0&0&\cdots&0&0\\
-0&0&1&0&\cdots&0&0\\
-0&0&0&1&\cdots&0&0\\
-0&0&0&0&\cdots&0&0\\
-\vdots&\vdots&\vdots&\vdots&\ddots&\vdots&\vdots\\
-0&0&0&0&\cdots&0&1\\
--1&-1&-1&-1&\cdots&-1&-1\\
-\end{bmatrix}.$$What are the eigenvalues of $P$?
-5. **Coding:** Plot the condition number of the Hilbert matrices in a log-log plot against $n$. You may find `numpy.linalg.cond` useful. Assume machine precision is $2^{-32}$. At what $n$ does the condition number induce an error of more than one in solving $Ax = b?$
-6. If you used the Legendre polynomials as your bases functions, what would your condition number be?
-7. **Math + Coding:** $\langle f, g\rangle$ is a measure of distance between the functions $f$ and $g$. The Legendre polynomials are *orthogonal*, meaning $\langle P_i, P_j\rangle = 0$ unless $i = j$.
+4. **Coding:** Plot the condition number of the Hilbert matrices in a log-log plot against $n$. You may find `numpy.linalg.cond` useful. Assume machine precision is $2^{-32}$. At what $n$ does the condition number induce an error of more than one in solving $Ax = b?$
+5. If you used the Legendre polynomials as your bases functions, what would your condition number be?
+6. **Math + Coding:** $\langle f, g\rangle$ is a measure of distance between the functions $f$ and $g$. The Legendre polynomials are *orthogonal*, meaning $\langle P_i, P_j\rangle = 0$ unless $i = j$.
 	1. Code up the [Gram-Schmidt](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) process to determine $P_0, P_1, \dots, P_{n-1}$.
 	2. Use Newton's method to find the roots of $P_{n}$. You will need to start close to each root. According to [StackExchange](https://math.stackexchange.com/a/12270) you can use the approximation formula $$x_{i}\approx\left(1-\frac{1}{8n^2}+\frac{1}{8n^3}\right)\cos\left(\pi\frac{4i-1}{4n+2}\right).$$
 	3. Solve for the correct weights so that $$\begin{aligned}\int_{-1}^1 P_0\ \text{d}x &= \sum_{i=0}^{n+1}w_i P_0(x_i)\\\int_{-1}^1 P_1\ \text{d}x &= \sum_{i=0}^{n+1}w_i P_1(x_i)\\&\vdots\\\int_{-1}^1 P_n\ \text{d}x &= \sum_{i=0}^{n+1}w_i P_n(x_i).\end{aligned}$$
