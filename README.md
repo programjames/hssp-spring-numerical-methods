@@ -25,6 +25,7 @@
 1. [Week 1](notes/lecture1.pdf)
 2. [Week 2](notes/lecture2.pdf)
 3. [Week 3](notes/lecture3.pdf)
+4. [Week 4](notes/lecture4.pdf)
 
 -----
 
