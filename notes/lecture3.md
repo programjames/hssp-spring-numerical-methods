@@ -91,7 +91,7 @@ $^\dagger$Note: A vector is essentially an $n\times 1$ matrix. Taking its transp
 
 # Stiff Matrices
 
-The *condition number* is the ratio of the largest to smallest eigenvalue of a matrix, $\kappa = \frac{\max |\lambda|}{\min |\lambda|}.$ To be precise, the condition number is the ratio of *singular values*, the square roots of the eigenvalues of $\overline{A^T}A,$ and equal the absolute values of the eigenvalues of $A$ for real, square matrices.
+The *condition number* is the ratio of the largest to smallest eigenvalue of a matrix, $\kappa = \frac{\max |\lambda|}{\min |\lambda|}.$ To be precise, the condition number is the ratio of *singular values*, the square roots of the eigenvalues of $\overline{A^T}A,$ which equal the absolute values of the eigenvalues of $A$ for real, square matrices.
 
 If you try solving the system $$y' = Ay$$using Euler's method or the Adams family of methods when $A$ has a very high condition number, it will blow up. In addition, a large condition number will exacerbate floating point errors when finding $A^{-1}$ or solving $Ax = b$.
 
