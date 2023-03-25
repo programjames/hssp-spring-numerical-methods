@@ -12,7 +12,7 @@ Covering:
 - Various bases,
 - Fourier/DCT transforms,
 - Fourier analysis (faster solvers),
-- Fourier analysis (stability/convergence).
+- Fourier analysis (stability).
 
 -----
 
@@ -52,6 +52,8 @@ Again, no weight for this basis, although the bounds on the integral go from min
 
 The Chebyshev polynomials are defined by $$T_n(\cos(x)) = \cos(nx),$$and satisfy the recurrence $$T_0=1;\quad T_1=x;\quad T_{n+1} = 2xT_n - T_{n-1}.$$Under the inner product $$\langle T_i, T_j\rangle = \int_{-1}^1 \frac{T_i(x)T_j(x)}{\sqrt{1-x^2}}\text{d}x$$(i.e. $w(x) = 1/\sqrt{1-x^2}$) we get $$\langle T_i, T_j\rangle = \begin{cases}\pi&i=j=0\\\pi/2&i=j\ne0\\0&\text{otherwise},\end{cases}$$so the approximation formula would reduce to $$c_0 = \frac1\pi\langle f, 1\rangle;\quad c_{i} = \frac{2}{\pi}\langle f, T_i\rangle.$$Integrating and multiplying together Chebyshev polynomials is also pretty quick: $$\begin{aligned}\int T_n \text{d}x = \frac12\left(\frac{T_{n+1}}{n+1}-\frac{T_{n-1}}{n-1}\right),\\T_aT_b = \frac12(T_{a+b}+T_{a-b}).\end{aligned}$$Unfortunately, taking derivatives is not so nice, though it can be sped up with the discrete cosine transform (e.g. see [chebfun](https://www.chebfun.org/)).
 
+-----
+
 # Fourier Transforms
 ## Euler's Formula
 
@@ -71,19 +73,32 @@ The discrete versions use a summation rather than an integral: $$F_y = \frac{1}{
 
 Let $D$ be the discrete fourier transform "operator" (i.e. matrix). Split up every other element of $f$ into two separate components, $f_\text{even}$ and $f_\text{odd}$. You may need to pad it with an extra zero to make them the same length. Now look at $$\begin{aligned}F_y &= D(f_\text{even}) + (\omega^yD)(f_\text{odd}),\\F_{y+\frac{N}{2}} &= D(f_\text{even}) + (\omega^{y+\frac{N}{2}}D)(f_\text{odd}) = D(f_\text{even}) - (\omega^{y}D)(f_\text{odd}).\end{aligned}$$You can do two smaller fourier transforms ($\frac{N}{2}\times \frac{N}{2}$ matrices) and add/subtract them to get a larger transform! Recursing gives the Cooley-Tukey algorithm. One use is multiplying two polynomials together: you can evaluate each polynomial at the roots of unity, multiply the values together, then apply the inverse fourier transform to get the coefficients of their product.
 
+-----
+
 # Fourier Analysis
-(Needs some updating to include discrete cosine transform algorithm.)
-Similar to the Taylor series and finite element methods, we can write continuous and periodic functions as a Fourier series: $$u(x) = \sum_{n=-\infty}^{\infty}U_ne^{2\pi in\cdot x}$$for some coefficients $U_n$. Note, this is the same as a finite element approximation using the functions $e^{\pm 2\pi in\cdot x}$, or equivalently, $\cos(2\pi in\cdot x), \sin(2\pi in\cdot x)$ due to Euler's formula. We can use the inner product $$\langle e^{2\pi in\cdot x}, e^{2\pi im\cdot x}\rangle = \int_{0}^1 e^{2\pi in\cdot x}\cdot e^{2\pi im\cdot x}\text{d}x = \begin{cases}1&m+n=0,\\0&\text{otherwise}.\end{cases}$$Nearly everything will cancel out, so we can find an explicit formula for $F_n$: $$U_n = \int_{0}^{1}u(x)e^{-2\pi in\cdot x}\text{d}x.$$The discrete case and two-dimensional case is similar. We can use this to quickly solve the discrete Poisson equation. For example, if $$u(x, y) = \sum_{n=0}^{N-1}\sum_{m=0}^{M-1}U_{n, m}e^{2\pi i (\frac{m}{M}x+\frac{n}{N}y)},$$then the finite difference method is $$\begin{aligned}f = \nabla^2 u&\approx -4u_{0,0}+u_{1,0}+u_{-1,0}+u_{0,1}+u_{0,-1}\\
-&=\sum_{n=0}^{N-1}\sum_{m=0}^{M-1}\left(e^{\frac{2i\pi}{M}x}+e^{-\frac{2i\pi}{M}x} + e^{\frac{2i\pi}{N}y} + e^{-\frac{2i\pi}{N}y}-4\right)U_{n, m}e^{2\pi i (\frac{m}{M}x+\frac{n}{N}y)}\\
-&= \sum_{n=0}^{N-1}\sum_{m=0}^{M-1}2\left(\cos\left(\frac{\pi x}{M}\right)+\cos\left(\frac{\pi y}{N}\right)-2\right)U_{n, m}e^{2\pi i (\frac{m}{M}x+\frac{n}{N}y)}\end{aligned}$$Taking a 2D discrete fourier transform of $f$ and dividing the coefficients by $$2\left(\cos\left(\frac{\pi x}{M}\right)+\cos\left(\frac{\pi y}{N}\right)-2\right)$$appropriately will give us the coefficients $U$. Then we can take the inverse transform to recover $u$. The periodicity of the Fourier series means it will solve it with von Neumann boundary conditions (derivative across boundaries is zero).
+## Finite Difference Speedup
 
-Also, we only need to keep track of the real parts, so we can shave off another factor of two by using the discrete cosine transform (the algorithm is similar to the Cooley-Tukey algorithm). The overall running time goes from $O(N^3)$ to $O(N^2\log N)$.
+![Solving the Poisson equation with a fourier transform.](images/fourier_poisson.png){ width=300px }
 
-# [Stability](https://en.wikipedia.org/wiki/Von_Neumann_stability_analysis)
+Similar to the Taylor series and finite element methods, we can write continuous and periodic functions as a Fourier series: $$u(x) = \sum_{n=-\infty}^{\infty}U_ne^{2\pi in\cdot x}$$for some coefficients $U_n$. Note, this is the same as a finite element approximation using the functions $e^{\pm 2\pi in\cdot x}$, or equivalently, $\cos(2\pi in\cdot x), \sin(2\pi in\cdot x)$ due to Euler's formula. We can use the inner product $$\langle e^{2\pi in\cdot x}, e^{2\pi im\cdot x}\rangle = \int_{0}^1 e^{2\pi in\cdot x}\cdot e^{2\pi im\cdot x}\text{d}x = \begin{cases}1&m+n=0,\\0&\text{otherwise}.\end{cases}$$Nearly everything will cancel out, so we can find an explicit formula for $U_n$: $$U_n = \int_{0}^{1}u(x)e^{-2\pi in\cdot x}\text{d}x.$$The discrete case and two-dimensional case is similar. We can use this to quickly solve the discrete Poisson equation. For example, if $$u(x, y) = \sum_{n=0}^{N-1}\sum_{m=0}^{M-1}U_{n, m}e^{2\pi i (\frac{m}{M}x+\frac{n}{N}y)},$$then the five-point stencil finite difference method is $$\begin{aligned}f = \nabla^2 u&\approx MN\left[-4u_{0,0}+u_{1,0}+u_{-1,0}+u_{0,1}+u_{0,-1}\right]\\
+&=MN\sum_{n=0}^{N-1}\sum_{m=0}^{M-1}\left[e^{\frac{2i\pi}{M}x}+e^{-\frac{2i\pi}{M}x} + e^{\frac{2i\pi}{N}y} + e^{-\frac{2i\pi}{N}y}-4\right]U_{n, m}e^{2\pi i (\frac{m}{M}x+\frac{n}{N}y)}\\
+&= MN\sum_{n=0}^{N-1}\sum_{m=0}^{M-1}\left[2\cos\left(\frac{\pi x}{M}\right)+2\cos\left(\frac{\pi y}{N}\right)-4\right]U_{n, m}e^{2\pi i (\frac{m}{M}x+\frac{n}{N}y)}\end{aligned}$$Taking a 2D discrete fourier transform of $f$ and dividing the coefficients by $$MN\left[2\cos\left(\frac{2\pi x}{M}\right)+2\cos\left(\frac{2\pi y}{N}\right)-4\right] = 4MN\left[\sin^2\left(\frac{\pi x}{M}\right)+\sin^2\left(\frac{\pi y}{N}\right)\right]$$will give us the coefficients $U$. Then we can take the inverse transform to recover $u$. The periodicity of the Fourier series means it will solve it with von Neumann boundary conditions (derivative across boundaries is zero). The overall running time goes from $O(N^3)$ to $O(N^2\log N)$.
 
-TLDF (will update after class, but didn't end up getting around to this); The Fourier series converges for functions with a continuous derivative. We can analyze the stability of Euler-like methods in Fourier space. If it is stable for all test functions $e^{i\theta t}$ (all on the $\theta$'s) then the Fourier series will stay stable $\implies$ the method is stable.
+## Stability Analysis
 
-Example w/ Euler's method:
-$$y(t) = e^{i\theta t}\implies y'(t) = \theta y,$$so $$y_{t+1} = (1 + h\theta)y_t,$$will be stable iff $$|1+h\theta| \le 1$$
+![The stability region for the forward euler method.](images/euler_stability.png){ width=300px }
 
-This describes a circle. Can do similar things for finite difference equations.
+The [Stone-Weierstrass theorem](https://en.wikipedia.org/wiki/Stone%E2%80%93Weierstrass_theorem#Weierstrass_approximation_theorem), says any real-valued, continuous function can be written as an infinite sum of polynomials, in particular the Chebyshev polynomials. Making the change of variables $x\to \cos t$ makes the function periodic, but keeps it continuous. It would then become a sum of cosines, i.e. $\sum_\omega e^{i\omega t}+e^{-i\omega t}$. In general, any function that is continuous and periodic has a convergent Fourier series; note it doesn't have to be real-valued.
+
+We can use the Fourier series to find the stability regions of Euler-like methods. If every function $y(t) = e^{\xi t}$ stays stable (note: $\xi = i\omega$), then so will any other continuous function. For example, with the trapezoidal method we have $$\begin{aligned}y_{t+1} &= y_t + \frac{h}{2}[y'(t) + y'(t+1)]\\&=y_t + \frac{h}{2}[\xi y_t + \xi y_{t+1}]\\&\Longleftrightarrow\\y_{t+1} &= \frac{2+h\xi}{2-h\xi}y_t.\end{aligned}$$To prevent $y$ from blowing up we need $$\left|\frac{2+h\xi}{2-h\xi}\right| \le 1.$$This ends up being equivalent to $\Re(h\xi) < 0$, so any step size $h$ is fine as long as the function doesn't increase exponentially.
+
+We can do a similar stability analysis on finite difference methods. Suppose we use Euler's method and the five-point stencil to solve the heat equation, $$u^{t+1} = u^t + hMN[-4u^t_{0,0}+u^t_{1,0}+u^t_{-1,0}+u^t_{0,1}+u^t_{0,-1}].$$Look at one coefficient of the Fourier series of $u$. From above, we know that $$\nabla^2u \leftrightarrow 4MN\left[\sin^2\left(\frac{\pi x}{M}\right)+\sin^2\left(\frac{\pi y}{N}\right)\right]U_{x, y}.$$To keep the coefficients from increasing exponentially, we need $$\left\lvert 1 + 4hMN\left[\sin^2\left(\frac{\pi x}{M}\right)+\sin^2\left(\frac{\pi y}{N}\right)\right]\right\rvert \le 1,$$or equivalently, $$h\le\frac{1}{2MN\left[\sin^2\left(\frac{\pi x}{M}\right)+\sin^2\left(\frac{\pi y}{N}\right)\right]}.$$In particular, you can choose $x=\frac{M}{2}, y=\frac{N}{2}$ and $$\sin^2\left(\frac{\pi x}{M}\right)+\sin^2\left(\frac{\pi y}{N}\right)= 2,$$so the method will always be stable iff $$h\le \frac{1}{4MN}.$$If we choose this optimal time step, we have to perform Euler's method $O(MN)$ times to go from $t=0$ to $t=1$. Each time step involves $O(MN)$ operations, so the overall running time would be $O(M^2N^2)$. Usually $M=N$, so this would take $O(N^4)$ time, which is not very fast, especially for an $O(N^{-2})$ error term.
+
+-----
+
+\newpage
+
+# Homework Problems
+1. **Coding:** Write a finite element method to approximate an arbitrary $f$ as a sum of Chebyshev polynomials: $$f(x)\approx \sum_{n=0}^Nc_nT_n(x).$$Using the finite element method involves taking integrals, which you can use Chebyshv-Gauss quadrature for. This will make the whole running time $O(N^2)$. Can you find a faster algorithm that runs in only $O(N\log N)$ time?
+2. **Math + Coding:** Code up a finite element method to solve the wave equation, $$\frac{\partial^2 u}{\partial t^2} = \nu^2\frac{\partial^2 u}{\partial x^2}$$where $\nu$ is the speed of the wave. Use the trial and test bases $$\Psi = \Phi = \{\sin n(x-\nu t), \cos n(x-\nu t)\}_{n=0}^{N}.$$
+3. **Math:** Perform a stability analysis on the [Cranki-Nicolson method](https://en.wikipedia.org/wiki/Crank%E2%80%93Nicolson_method) applied to the discrete Poisson equation. It is essentially the trapezoidal method in time with the five-point method in space.

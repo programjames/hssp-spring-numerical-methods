@@ -33,7 +33,7 @@
 Open up the terminal (cmd line on Windows) and run
 ```shell
 git clone https://github.com/programjames/hssp-spring-numerical-methods
-cd hssp-spring-numerical-methods
+cd hssp-spring-numerical-methods/examples
 pip install -r requirements.txt
 ```
 
