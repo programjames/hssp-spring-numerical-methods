@@ -27,6 +27,13 @@
 3. [Week 3](notes/lecture3.pdf)
 4. [Week 4](notes/lecture4.pdf)
 
+# Examples
+
+1. [Week 1](examples/lecture1.html)
+2. [Week 2](examples/lecture2.html)
+3. [Week 3](examples/lecture3.html)
+4. [Week 4](examples/lecture4.html)
+
 -----
 
 # Installation
