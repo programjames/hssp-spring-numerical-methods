@@ -104,3 +104,13 @@ However, you still need to find the right step size. Too large, and your paramet
 
 In particular, you multiply your initial step size $\alpha$ by the first moment over the second moment, $$\frac{\sum \partial f/\partial x}{\sqrt{\sum (\partial f/\partial x)^2}} = \frac{m_1}{m_2}.$$You don't want to have to keep track of the derivatives for every iteration, so you take a moving average instead: $$\begin{aligned}m_1&\leftarrow \beta m_1 + (1-\beta)\frac{\partial f}{\partial x},
 \\ m_2&\leftarrow \beta m_2+(1-\beta)\left(\frac{\partial f}{\partial x}\right)^2,\end{aligned}$$for some $\beta\approx 1$ (but less than; e.g. $\beta=0.999$). The update is then $$x\leftarrow x - \alpha\cdot \frac{m_1}{m_2}.$$When the gradients are all pointing in the same direction, then $m_2\approx m_1$, so the step size will be about $\alpha$. As you get near an optimum, $m_1$ will go to zero and $m_2$ will approximate the variance, which should be much larger, so the step size will decrease to zero.
+
+-----
+
+\newpage
+
+# Homework Problems
+1. **Computer Science:** Given two sorted lists, $\mathbf{a}$ and $\mathbf{b}$, find the median of their concatenation in $O(\log n)$ time and constant space.
+2. **Math:** Show that the golden ratio is the correct ratio for the golden-section search.
+3. **Math:** Consider the linear program $$\min c^Tx,\quad \mathbf{Ax=b},\quad\mathbf{x\ge 0}.$$Define the *Lagrangian* as $$\mathcal{L}(x, \nu, \lambda) = c^Tx + \nu^T(Ax-b)+\lambda^Tx.$$What constraints are equivalent to $\partial\mathcal{L}/\partial x_i = 0?$ This is known as the *dual problem*. Find the dual problem of the Settler's of Catan example, and explain what it represents.
+4. **Coding:** Code up a neural network from scratch, and implement gradient descent. Try it on the `XOR` function.
