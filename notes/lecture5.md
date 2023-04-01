@@ -78,7 +78,7 @@ x = 0
 r = b - A @ x
 p = copy(r)
 while True:
-    r_prev = np.copy(r)
+    r_prev = copy(r)
     a = (r @ r) / (p @ (A @ p))
     x += a * p
     r -= a * (A @ p)
