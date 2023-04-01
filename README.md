@@ -26,6 +26,7 @@
 2. [Week 2](notes/lecture2.pdf)
 3. [Week 3](notes/lecture3.pdf)
 4. [Week 4](notes/lecture4.pdf)
+5. [Week 5](notes/lecture5.pdf)
 
 # Examples
 
@@ -33,6 +34,7 @@
 2. [Week 2](examples/lecture2.html)
 3. [Week 3](examples/lecture3.html)
 4. [Week 4](examples/lecture4.html)
+5. [Week 5](examples/lecture5.html)
 
 -----
 
