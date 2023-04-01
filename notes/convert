@@ -1,1 +1,1 @@
-pandoc -H disable_float.tex $1.md -o $1.pdf
+pandoc -H micro.tex $1.md -o $1.pdf
