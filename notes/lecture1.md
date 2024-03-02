@@ -77,7 +77,7 @@ There is a more general idea called *finite element analysis*, where instead of 
 
 Say you take a function and apply it over and over again. If it's like $f(x) = x^2$ and you start with $x=2$, then the number will get infinitely large. However, if the derivative is between $-1$ and $1$, we get a *contraction mapping* where the range shrinks after every iteration until we're left with just a few fixed points. For example, the only fixed point of $\cos(x)$ is $x\approx 0.7391$.
 
-We can use fixed point iteration to find roots. For example, with the equation $$x^5 - 7x^3 + 3x^2 + x + 2 = 0$$ we can rearrange it to $$x = \sqrt[5]{7x^3 - 3x^2 - 2}$$then apply fixed point iteration on the right-hand side (RHS) to get equality when $x\approx 2.362$.
+We can use fixed point iteration to find roots. For example, with the equation $$x^5 - 7x^3 + 3x^2 + x + 2 = 0$$ we can rearrange it to $$x = \sqrt[5]{7x^3 - 3x^2 - x - 2}$$then apply fixed point iteration on the right-hand side (RHS) to get equality when $x\approx 2.362$.
 
 -----
 
